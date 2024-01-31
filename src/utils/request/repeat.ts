@@ -1,6 +1,64 @@
-import type { AxiosRequestConfig } from 'axios';
+import { RepeatCancelConfig, RepeatCancelRange } from '@/typings/request';
+import axios, { Canceler, InternalAxiosRequestConfig, Method } from 'axios';
+const CancelToken = axios.CancelToken;
+// 保存每次请求的取消方法
+const repeatMap: Map<string, Canceler> = new Map();
 
+// 根据不同range 的将请求转key
+interface RequestKeys {
+    routerPath: string;
+    method: Method | 'method';
+    url: string;
+    params: string;
+}
+const requestToKey: Record<RepeatCancelRange, (keys: RequestKeys) => string> = {
+    0: (keys) => '*',
+    1: (keys) => keys.routerPath,
+    2: (keys) => keys.method,
+    3: (keys) => keys.url,
+    4: (keys) => keys.url + keys.routerPath,
+    5: (keys) => keys.url + keys.method,
+    6: (keys) => keys.url + keys.params,
+    7: (keys) => keys.url + keys.routerPath + keys.method,
+    8: (keys) => keys.url + keys.routerPath + keys.params,
+    9: (keys) => keys.url + keys.method + keys.params,
+    10: (keys) => keys.url + keys.routerPath + keys.method + keys.params,
+}
+function getRequestKeys(config: InternalAxiosRequestConfig): RequestKeys {
+    const urls = config.url?.split('?')!
+    return {
+        routerPath: window.location.pathname,
+        method: (config.method as Method) || ('method' as const),
+        url: urls[0],
+        params: urls[1]
+    }
+}
 // 默认配置
-export const repeatCancelConfig: AxiosRequestConfig['repeatCancelConfig'] = {
-
+export const repeatCancelConfig: RepeatCancelConfig = {
+    range: 0,
+    type: 'identical'
+}
+export function mountRepeatCancel(config: InternalAxiosRequestConfig) {
+    const keys = getRequestKeys(config)
+    const k = requestToKey[config.repeatCancelConfig!.range]?.(keys) || requestToKey[repeatCancelConfig.range](keys)
+    let repeatArr: [string, Canceler][] = []
+    if (config.repeatCancelConfig?.range === 0) {
+        repeatArr = Array.from(repeatMap.entries())
+    }
+    if (config.repeatCancelConfig?.range) {
+        repeatArr = Array.from(repeatMap.entries()).filter(item => {
+            if (config.repeatCancelConfig?.type === 'identical') {
+                return item[0] === k
+            } else {
+                return item[0].includes(k)
+            }
+        })
+    }
+    repeatArr.forEach((item) => {
+        item[1]()
+        repeatMap.delete(item[0])
+    })
+    config.cancelToken = new CancelToken(function executor(cancel) {
+        repeatMap.set(k, cancel);
+    });
 }

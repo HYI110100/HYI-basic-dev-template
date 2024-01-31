@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { repeatCancelConfig } from "@/utils/request/repeat";
+import { mountRepeatCancel, repeatCancelConfig } from "@/utils/request/repeat";
 import { requestTryConfig } from "@/utils/request/retry";
 
 const instance = axios.create({
@@ -9,6 +9,7 @@ const instance = axios.create({
     requestTryConfig: { ...requestTryConfig }
 });
 instance.interceptors.request.use((config) => {
+    mountRepeatCancel(config)
     return config;
 }, (error) => {
     console.error(error);

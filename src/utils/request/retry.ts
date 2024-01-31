@@ -1,6 +1,6 @@
-import type { AxiosRequestConfig } from 'axios';
+import { RequestTryConfig } from '@/typings/request';
 
 // 默认配置
-export const requestTryConfig: AxiosRequestConfig['requestTryConfig'] = {
+export const requestTryConfig: RequestTryConfig = {
 
 }
