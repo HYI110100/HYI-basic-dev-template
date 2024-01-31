@@ -27,9 +27,9 @@
 
 ## 基础功能
 
-- axios取消重复请求
-- axios错误重试请求
-- 组件、方法自动引入
-- ~~ESLint~~
-- ~~Prettier~~
-- ~~husky~~
+- [x] axios取消重复请求
+- [ ] axios错误重试请求
+- [x] 组件、方法自动引入
+- [ ] ESLint
+- [ ] Prettier
+- [ ] husky
