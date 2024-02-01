@@ -19,6 +19,7 @@ export type RepeatCancelType = 'identical' | 'similar'
 export interface RepeatCancelConfig {
   range: RepeatCancelRange,
   type?: RepeatCancelType
+  state?: 0 | 1
 }
 // 失败请求尝试
 export interface RequestTryConfig {

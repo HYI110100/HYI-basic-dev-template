@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { mountRepeatCancel, repeatCancelConfig } from "@/utils/request/repeat";
+import { mountRepeatCancel, uninstallRepeatCancel, repeatCancelConfig } from "@/utils/request/repeat";
 import { requestTryConfig } from "@/utils/request/retry";
 
 const instance = axios.create({
@@ -16,6 +16,7 @@ instance.interceptors.request.use((config) => {
 })
 
 instance.interceptors.response.use((response) => {
+    uninstallRepeatCancel(response)
     const data = response.data
     if (data.code < 200 || data.code > 299) {
         return Promise.reject(response.data)

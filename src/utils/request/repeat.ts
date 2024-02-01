@@ -1,5 +1,5 @@
 import { RepeatCancelConfig, RepeatCancelRange } from '@/typings/request';
-import axios, { Canceler, InternalAxiosRequestConfig, Method } from 'axios';
+import axios, { AxiosResponse, Canceler, InternalAxiosRequestConfig, Method } from 'axios';
 const CancelToken = axios.CancelToken;
 // 保存每次请求的取消方法
 const repeatMap: Map<string, Canceler> = new Map();
@@ -33,14 +33,19 @@ function getRequestKeys(config: InternalAxiosRequestConfig): RequestKeys {
         params: urls[1]
     }
 }
+function generateRequestKeys(config: InternalAxiosRequestConfig) {
+    const keys = getRequestKeys(config)
+    return requestToKey[config.repeatCancelConfig!.range]?.(keys) || requestToKey[repeatCancelConfig.range](keys)
+}
 // 默认配置
 export const repeatCancelConfig: RepeatCancelConfig = {
     range: 0,
-    type: 'identical'
+    type: 'identical',
+    state: 1
 }
 export function mountRepeatCancel(config: InternalAxiosRequestConfig) {
-    const keys = getRequestKeys(config)
-    const k = requestToKey[config.repeatCancelConfig!.range]?.(keys) || requestToKey[repeatCancelConfig.range](keys)
+    if (config.repeatCancelConfig?.state === 0) return
+    const key = generateRequestKeys(config)
     let repeatArr: [string, Canceler][] = []
     if (config.repeatCancelConfig?.range === 0) {
         repeatArr = Array.from(repeatMap.entries())
@@ -48,9 +53,9 @@ export function mountRepeatCancel(config: InternalAxiosRequestConfig) {
     if (config.repeatCancelConfig?.range) {
         repeatArr = Array.from(repeatMap.entries()).filter(item => {
             if (config.repeatCancelConfig?.type === 'identical') {
-                return item[0] === k
+                return item[0] === key
             } else {
-                return item[0].includes(k)
+                return item[0].includes(key)
             }
         })
     }
@@ -59,6 +64,12 @@ export function mountRepeatCancel(config: InternalAxiosRequestConfig) {
         repeatMap.delete(item[0])
     })
     config.cancelToken = new CancelToken(function executor(cancel) {
-        repeatMap.set(k, cancel);
+        repeatMap.set(key, cancel);
     });
+}
+
+export function uninstallRepeatCancel(response: AxiosResponse) {
+    if (response.config.repeatCancelConfig?.state === 0) return
+    const key = generateRequestKeys(response.config)
+    repeatMap.delete(key)
 }
