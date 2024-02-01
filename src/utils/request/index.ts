@@ -3,7 +3,7 @@ import { mountRepeatCancel, uninstallRepeatCancel, repeatCancelConfig } from "@/
 import { requestTryConfig, startRequestTry, endRequestTry } from "@/utils/request/retry";
 export const axiosConfig: CreateAxiosDefaults = {
     baseURL: '/',
-    timeout: 1,
+    timeout: 5000,
     repeatCancelConfig: { ...repeatCancelConfig },
     requestTryConfig: { ...requestTryConfig }
 }
