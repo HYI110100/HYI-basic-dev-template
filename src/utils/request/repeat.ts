@@ -16,13 +16,13 @@ const requestToKey: Record<RepeatCancelRange, (keys: RequestKeys) => string> = {
     1: (keys) => keys.routerPath,
     2: (keys) => keys.method,
     3: (keys) => keys.url,
-    4: (keys) => keys.url + keys.routerPath,
-    5: (keys) => keys.url + keys.method,
-    6: (keys) => keys.url + keys.params,
-    7: (keys) => keys.url + keys.routerPath + keys.method,
-    8: (keys) => keys.url + keys.routerPath + keys.params,
-    9: (keys) => keys.url + keys.method + keys.params,
-    10: (keys) => keys.url + keys.routerPath + keys.method + keys.params,
+    4: (keys) => [keys.url, keys.routerPath].join('&'),
+    5: (keys) => [keys.url, keys.method].join('&'),
+    6: (keys) => [keys.url, new URLSearchParams(keys.params)].join('&'),
+    7: (keys) => [keys.url, keys.routerPath, keys.method].join('&'),
+    8: (keys) => [keys.url, keys.routerPath, new URLSearchParams(keys.params)].join('&'),
+    9: (keys) => [keys.url, keys.method, new URLSearchParams(keys.params)].join('&'),
+    10: (keys) => [keys.url, keys.routerPath, keys.method, new URLSearchParams(keys.params)].join('&'),
 }
 function getRequestKeys(config: InternalAxiosRequestConfig): RequestKeys {
     const urls = config.url?.split('?')!
@@ -39,7 +39,7 @@ function generateRequestKeys(config: InternalAxiosRequestConfig) {
 }
 // 默认配置
 export const repeatCancelConfig: RepeatCancelConfig = {
-    range: 0,
+    range: 9,
     type: 'identical',
     state: 1
 }

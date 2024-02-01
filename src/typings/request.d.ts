@@ -19,11 +19,14 @@ export type RepeatCancelType = 'identical' | 'similar'
 export interface RepeatCancelConfig {
   range: RepeatCancelRange,
   type?: RepeatCancelType
-  state?: 0 | 1
+  state?: 0 | 1 // 是否启用 0关闭 1启用
 }
 // 失败请求尝试
 export interface RequestTryConfig {
-
+  state?: 0 | 1 // 是否启用 0关闭 1启用
+  count?: number // 尝试次数
+  interval?: number// 每次请求间隔 毫秒
+  isTips?: boolean // 开启结果题型
 }
 
 // 使用声明合并拓展AxiosRequestConfig类型定义
