@@ -30,6 +30,5 @@
 - [x] axios取消重复请求
 - [x] axios错误重试请求
 - [x] 组件、方法自动引入
-- [ ] ESLint
-- [ ] Prettier
+- [ ] ESLint&Prettier
 - [ ] husky
