@@ -5,12 +5,8 @@
  * @LastEditTime: 2023-06-09 15:07:48
  * @Description: 404
 -->
-<script setup lang="ts">
-
-</script>
+<script setup lang="ts"></script>
 
 <template>
-  <div class="p-3">
-    404
-  </div>
+  <div class="p-3">404</div>
 </template>
