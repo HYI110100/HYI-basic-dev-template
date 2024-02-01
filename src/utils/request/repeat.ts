@@ -12,7 +12,7 @@ interface RequestKeys {
   params: string;
 }
 const requestToKey: Record<RepeatCancelRange, (keys: RequestKeys) => string> = {
-  0: (keys) => '*',
+  0: () => '*',
   1: (keys) => keys.routerPath,
   2: (keys) => keys.method,
   3: (keys) => keys.url,
@@ -25,7 +25,7 @@ const requestToKey: Record<RepeatCancelRange, (keys: RequestKeys) => string> = {
   10: (keys) => [keys.url, keys.routerPath, keys.method, new URLSearchParams(keys.params)].join('&'),
 };
 function getRequestKeys(config: InternalAxiosRequestConfig): RequestKeys {
-  const urls = config.url?.split('?')!;
+  const urls = (config.url || '').split('?')!;
   return {
     routerPath: window.location.pathname,
     method: (config.method as Method) || ('method' as const),

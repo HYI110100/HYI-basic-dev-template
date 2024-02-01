@@ -1,5 +1,3 @@
-import type { Canceler, Method, AxiosRequestConfig } from 'axios';
-
 // 重复请求取消
 /**
  * 0 任意请求都取消上一个

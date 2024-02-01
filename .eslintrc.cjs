@@ -3,8 +3,9 @@ module.exports = {
   env: {
     browser: true,
     es2021: true,
+    node: true,
   },
-  extends: ['eslint:recommended', 'plugin:vue/vue3-essential', 'plugin:prettier/recommended'],
+  extends: ['eslint:recommended', 'plugin:vue/vue3-essential', 'plugin:@typescript-eslint/recommended', 'plugin:prettier/recommended'],
   overrides: [
     {
       env: {
@@ -21,7 +22,7 @@ module.exports = {
   parserOptions: {
     ecmaVersion: 'latest',
     sourceType: 'module',
-    sourceType: 'module',
+    parser: '@typescript-eslint/parser',
   },
   plugins: ['vue', '@typescript-eslint', 'prettier'],
   rules: {
@@ -85,5 +86,6 @@ module.exports = {
     quotes: [2, 'single', { avoidEscape: true, allowTemplateLiterals: true }], // 字符串使用单引号
     semi: [2, 'always'], // 强制使用分号
     eqeqeq: [2, 'always', { null: 'ignore' }], // 要求使用 === 和 !==
+    '@typescript-eslint/no-explicit-any': ['warn'],
   },
 };
