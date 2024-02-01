@@ -5,9 +5,7 @@
  * @LastEditTime: 2023-11-02 10:09:44
  * @Description: Home
 -->
-<script setup lang="ts">
-
-</script>
+<script setup lang="ts"></script>
 
 <template>
   <router-view />
