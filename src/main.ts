@@ -2,7 +2,7 @@ import { createApp } from 'vue';
 import store from '@/stores';
 import router from '@/routes';
 import 'uno.css';
-import '@/style.css';
+import '@/style/style.css';
 import '@/routes/permissions';
 
 import App from './App.vue';
