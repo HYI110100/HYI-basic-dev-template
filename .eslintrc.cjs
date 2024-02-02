@@ -32,7 +32,7 @@ module.exports = {
     'vue/no-v-html': 0, // 关闭v-html校验
     'vue/no-mutating-props': 0, // 关闭禁止修改props
     'no-undef': 0, // 关闭未定义变量检测
-    'no-unused-vars': 0, // 关闭未使用变量检测
+    'no-unused-vars': 'warn', // 关闭未使用变量检测
     'no-console': 0, // 关闭console检测
     'no-debugger': 0, // 关闭debugger检测
     'no-array-constructor': 2, // 禁止使用数组构造器
@@ -87,5 +87,6 @@ module.exports = {
     semi: [2, 'always'], // 强制使用分号
     eqeqeq: [2, 'always', { null: 'ignore' }], // 要求使用 === 和 !==
     '@typescript-eslint/no-explicit-any': ['warn'],
+    '@typescript-eslint/no-unused-vars': ['warn'],
   },
 };
