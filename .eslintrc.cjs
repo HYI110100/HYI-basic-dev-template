@@ -33,7 +33,7 @@ module.exports = {
     'vue/no-mutating-props': 0, // 关闭禁止修改props
     'no-undef': 0, // 关闭未定义变量检测
     'no-unused-vars': 'warn', // 关闭未使用变量检测
-    'no-console': 0, // 关闭console检测
+    'no-console': 1, // 关闭console检测
     'no-debugger': 0, // 关闭debugger检测
     'no-array-constructor': 2, // 禁止使用数组构造器
     'no-class-assign': 2, // 禁止给类赋值
@@ -65,7 +65,7 @@ module.exports = {
     'no-sparse-arrays': 2, // 禁止稀疏数组
     'no-this-before-super': 2, // 在调用super()之前不能使用this或super
     'no-throw-literal': 2, // 禁止抛出字面量错误 throw "error";
-    'no-trailing-spaces': 2, // 一行结束后面不要有空格
+    'no-trailing-spaces': 1, // 一行结束后面不要有空格
     'no-undef-init': 2, // 变量初始化时不能直接给它赋值为undefined
     'no-unexpected-multiline': 2, // 避免多行表达式
     'no-unmodified-loop-condition': 2, // 禁止出现未使用过的变量
